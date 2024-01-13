@@ -22,6 +22,8 @@ Actualmente nuestro arreglo cuenta con 1 elemento y tiene la capacidad de soport
 
 Si por ejemplo quisieramos hacerle un push de un nuevo elemento (un nuevo numero)
 
+*En las arraylist nuestra head es el indice 0 y la tail es el indice de Length
+
 lo que tendriamos que hacer en nuestra funcion de push seria
     if Length + 1 <= Capacity {
         ////////////////////////
