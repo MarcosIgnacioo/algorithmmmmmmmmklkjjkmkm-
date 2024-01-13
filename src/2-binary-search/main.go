@@ -12,6 +12,10 @@ func main()  {
 func BinarySearch(haystack [] int, needle int) bool  {
     low := 0
     high := len(haystack)
+
+    // La razon por la que el high se mantiene como el mid y no se resta es porque
+    // al ser un < el comparador ya esta excluyendo al mid, por ejemplo si el mid fuera 5
+    // y el low 1, 1 < 5, ya no estariamos tocando de cualquier manera el 5, sin embargo si el que adquirio el mid fue el low como esta del otro lado del < no se va a excluir automaticamente lpor lo que se tiene que excluir manualmente con un + 1
     for low < high {
         mid := int(math.Floor(float64(low + (high - low) / 2)))
         value := haystack[mid]
