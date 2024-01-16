@@ -7,14 +7,15 @@ import (
 
 type ArrayBuffer struct {
 	Array    *[]interface{}
-	Length   uint
-	Capacity uint
+	Length   int
+	Capacity int
 	Type     reflect.Type
-	Head     uint
-	Tail     uint
+	Head     int
+	Tail     int
+	IsElden  bool
 }
 
-func NewArrayBuffer(c uint) ArrayBuffer {
+func NewArrayBuffer(c int) ArrayBuffer {
 	array := make([]interface{}, c)
 	return ArrayBuffer{
 		Array:    &array,
@@ -28,28 +29,63 @@ func NewArrayBuffer(c uint) ArrayBuffer {
 func (ab *ArrayBuffer) Enqueue(item interface{}) {
 	if ab.Type == nil {
 		ab.Type = reflect.TypeOf(item)
-		ab.Tail = ab.Capacity
 	}
 
 	if ab.Type != reflect.TypeOf(item) {
 		return
 	}
 
-	if ab.Length+1 > ab.Capacity {
-		newArray := make([]interface{}, ab.Capacity*2)
+	if ab.Length+1 > ab.Capacity && ab.Tail != ab.Capacity {
+		ab.Capacity += 5
+		newArray := make([]interface{}, ab.Capacity)
 		newArray = appendGamer(newArray, *ab.Array)
 		ab.Array = &newArray
+		if ab.IsElden {
+			fmt.Println(ab.Head)
+			fmt.Println(ab.Tail)
+		}
+	}
+
+	if ab.Tail == ab.Length && ab.Tail != 0 {
+		ab.Tail = ab.Tail % ab.Length
+		ab.IsElden = true
+	} else {
+		ab.Tail++
 	}
 
 	if ab.Length > 0 {
+		(*ab.Array)[ab.Tail] = item
+	} else {
+		(*ab.Array)[ab.Head] = item
+		ab.Tail = ab.Head
+	}
+	ab.Length++
 
-		for i := ab.Head; i > 0; i-- {
-			(*ab.Array)[i] = (*ab.Array)[i-1]
+}
+
+func SettleHeadDown(ab *ArrayBuffer) {
+	for i := 0; i < ab.Capacity; i++ {
+
+	}
+}
+
+func (ab *ArrayBuffer) Dequeue() interface{} {
+
+	var dequeued interface{}
+
+	if ab.Length > 0 {
+		ab.Length--
+		dequeued = (*ab.Array)[ab.Head]
+		(*ab.Array)[ab.Head] = nil
+		if ab.Head+1 != ab.Capacity {
+			ab.Head++
+		} else {
+			ab.Head = ab.Tail - 1
 		}
 
-		ab.Length++
-		(*ab.Array)[ab.Tail] = item
 	}
+
+	return dequeued
 }
 
 func (ab *ArrayBuffer) Push(item interface{}) {
@@ -64,12 +100,13 @@ func (ab *ArrayBuffer) Push(item interface{}) {
 	}
 
 	if ab.Length+1 > ab.Capacity {
-		newArray := make([]interface{}, ab.Capacity*2)
+		ab.Capacity += 5
+		newArray := make([]interface{}, ab.Capacity)
 		newArray = appendGamer(newArray, *ab.Array)
 		ab.Array = &newArray
 	}
 
-	if ab.Length > 0 {
+	if ab.Length > 0 && ab.Head == 0 {
 
 		for i := ab.Length; i > 0; i-- {
 			(*ab.Array)[i] = (*ab.Array)[i-1]
@@ -77,6 +114,7 @@ func (ab *ArrayBuffer) Push(item interface{}) {
 		}
 	}
 	if ab.Head != 0 {
+		// Creo que head deberia de equivaler a la Length
 		ab.Head--
 	}
 	ab.Length++
@@ -102,18 +140,14 @@ func appendGamer(array []interface{}, secondArray []interface{}) []interface{} {
 
 func main() {
 	asdf := NewArrayBuffer(3)
-	asdf.Push(453)
-	asdf.Push(34)
-	asdf.Push(34)
-	asdf.Push(38)
-	asdf.Push(41)
-	asdf.Push(44)
-	fmt.Println("arreglo asi enterito")
-	fmt.Println(*asdf.Array...)
-	asdf.Pop()
-	fmt.Println("arreglo asi despues popo")
-	fmt.Println(*asdf.Array...)
-	asdf.Push(120)
-	fmt.Println("arreglo asi despues de push")
+	asdf.Enqueue(0)
+	asdf.Enqueue(1)
+	asdf.Enqueue(2)
+	asdf.Dequeue()
+	asdf.Enqueue(3)
+	asdf.Dequeue()
+	asdf.Dequeue()
+	asdf.Dequeue()
+	asdf.Enqueue(4)
 	fmt.Println(*asdf.Array...)
 }
