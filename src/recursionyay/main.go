@@ -2,31 +2,29 @@ package main
 
 import (
 	"fmt"
-
 	"marcos.com/algorithms/src/recursionyay/arraybuffer"
 )
 
 func main() {
 	maze := [][]string{
-		//       0    1    2    3
-		/* 0 */ {"x", " ", "x", " "},
-		/* 1 */ {"x", " ", " ", " "},
-		/* 2 */ {"x", " ", " ", " "},
-		/* 3 */ {"x", "x", "x", "x"},
+		//        0    1    2    3
+		/* 0 */ {"x", " ", "x", " ", " "},
+		/* 1 */ {" ", " ", " ", " ", " "},
+		/* 2 */ {"x", "x", "x", "x", " "},
 	}
 
 	// Define start and end points
 	start := NewPoint(1, 1)
-	end := NewPoint(0, 3)
+	end := NewPoint(1, 3)
 	asdf := MazeSolver(maze, "x", start, end)
 	fmt.Println(*asdf.Array...)
 }
 
 var dir = []Point{
 	NewPoint(0, 1),
-	NewPoint(-1, 0),
-	NewPoint(0, -1),
 	NewPoint(1, 0),
+	NewPoint(0, -1),
+	NewPoint(-1, 0),
 }
 
 type Point struct {
@@ -42,8 +40,7 @@ func NewPoint(x int, y int) Point {
 	return Point{X: x, Y: y}
 }
 
-func Walk(maze [][]string, wall string, curr Point, end Point, seen [20][20]bool, path arraybuffer.ArrayBuffer) bool {
-
+func Walk(maze [][]string, wall string, curr Point, end Point, seen [50][50]bool, path arraybuffer.ArrayBuffer) bool {
 	if curr.X < 0 || curr.X >= len(maze[0]) || curr.Y < 0 || curr.Y >= len(maze) {
 		return false
 	}
@@ -66,13 +63,12 @@ func Walk(maze [][]string, wall string, curr Point, end Point, seen [20][20]bool
 			return true
 		}
 	}
-	path.Pop()
 	return false
 }
 
 func MazeSolver(maze [][]string, wall string, start Point, end Point) *arraybuffer.ArrayBuffer {
-	path := arraybuffer.NewArrayBuffer(26)
-	var seen [20][20]bool
+	path := arraybuffer.NewArrayBuffer(67)
+	var seen [50][50]bool
 	for i := 0; i < len(seen[0]); i++ {
 		for j := 0; j < i; j++ {
 			seen[i][j] = false

@@ -263,3 +263,10 @@ Y nuestro recursive case simplemente lo que hace es checar las 4 direcciones a l
          m
     
 Cuando juntamos ambas cosas boom programa comploeto gamer
+
+En nuestro base case deben de ir las razones por las cuales debemos de dejar de recursar, hara todo mas facil, tipo checar si es nil out of bounds y asi 
+
+Cuando usar recursion?
+
+Cuando un for loop no pueda resolver el problema, por ejemplo en el caso del laberinto un for loop no puede resolver el problema porque hay branching (en el caso del laberinto podiamos ir por 4 direcciones diferentes)
+

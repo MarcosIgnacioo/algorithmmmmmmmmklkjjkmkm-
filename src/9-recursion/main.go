@@ -174,7 +174,6 @@ func Walk(maze [][]string, wall string, curr Point, end Point, seen [50][50]bool
 			return true
 		}
 	}
-	path.pop()
 	return false
 }
 func MazeSolver(maze [][]string, wall string, start Point, end Point) *Stack {

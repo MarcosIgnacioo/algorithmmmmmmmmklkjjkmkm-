@@ -1,56 +1,8 @@
-package main
+package stack
 
 import (
-	"fmt"
 	"math"
 )
-
-func TestStackOperations() {
-	stack := Factory()
-
-	// Verificar que la pila esté vacía al inicio
-	if stack.Length != 0 {
-		fmt.Errorf("Se esperaba que la longitud de la pila fuera 0, pero es %d", stack.Length)
-	}
-
-	// Hacer push de algunos elementos
-	stack.push(1)
-	stack.push(2)
-	stack.push(3)
-	stack.push(9)
-
-	// Verificar que la longitud sea correcta después de los push
-	if stack.Length != 3 {
-		fmt.Errorf("Se esperaba que la longitud de la pila fuera 3, pero es %d", stack.Length)
-	}
-
-	// Verificar el método peek
-	if value := stack.peek(); value != 3 {
-		fmt.Errorf("Se esperaba que el valor superior de la pila fuera 3, pero es %v", value)
-	}
-
-	// Verificar el método pop
-	if popped := stack.pop(); popped != 3 {
-		fmt.Errorf("Se esperaba que el elemento desapilado fuera 3, pero es %v", popped)
-	}
-
-	// Verificar que la longitud sea correcta después del pop
-	if stack.Length != 2 {
-		fmt.Errorf("Se esperaba que la longitud de la pila fuera 2 después del pop, pero es %d", stack.Length)
-	}
-
-	// Hacer más operaciones de push y pop según sea necesario
-
-	// Asegurarse de que la pila esté vacía al final
-	for stack.Length > 0 {
-		stack.pop()
-	}
-
-	if stack.Length != 0 {
-		fmt.Errorf("Se esperaba que la longitud de la pila fuera 0 al final, pero es %d", stack.Length)
-	}
-	fmt.Println(stack.Length)
-}
 
 type Node struct {
 	Value interface{}
@@ -68,7 +20,7 @@ func Factory() Stack {
 
 // Metemos un nuevo elemento al stack, por lo que ahora la cabeza de nuestro stack va a ser el ultimo elemento que metimos
 
-func (s *Stack) push(item interface{}) {
+func (s *Stack) Push(item interface{}) {
 
 	// Aumentamos la Length de nuestro stack porque vamos a ingresarle un nuevo elemento
 
@@ -88,7 +40,7 @@ func (s *Stack) push(item interface{}) {
 
 }
 
-func (s *Stack) pop() interface{} {
+func (s *Stack) Pop() interface{} {
 	s.Length = uint(math.Max(0, float64(s.Length)-1))
 	// Aqui lo que hacemos es que retornamos el numero mas grande entre dos numeros
 
@@ -142,6 +94,6 @@ func (s *Stack) pop() interface{} {
 }
 
 // Retornamos el valor contenido en el head de nuestro stack
-func (s *Stack) peek() interface{} {
+func (s *Stack) Peek() interface{} {
 	return s.Head.Value
 }
