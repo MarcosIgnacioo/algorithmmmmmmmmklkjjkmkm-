@@ -5,8 +5,51 @@ import (
 	"math"
 )
 
-func main() {
-	TestMazeSolver()
+func TestStackOperations() {
+	stack := Factory()
+
+	// Verificar que la pila esté vacía al inicio
+	if stack.Length != 0 {
+		fmt.Errorf("Se esperaba que la longitud de la pila fuera 0, pero es %d", stack.Length)
+	}
+
+	// Hacer push de algunos elementos
+	stack.push(1)
+	stack.push(2)
+	stack.push(3)
+	stack.push(9)
+
+	// Verificar que la longitud sea correcta después de los push
+	if stack.Length != 3 {
+		fmt.Errorf("Se esperaba que la longitud de la pila fuera 3, pero es %d", stack.Length)
+	}
+
+	// Verificar el método peek
+	if value := stack.peek(); value != 3 {
+		fmt.Errorf("Se esperaba que el valor superior de la pila fuera 3, pero es %v", value)
+	}
+
+	// Verificar el método pop
+	if popped := stack.pop(); popped != 3 {
+		fmt.Errorf("Se esperaba que el elemento desapilado fuera 3, pero es %v", popped)
+	}
+
+	// Verificar que la longitud sea correcta después del pop
+	if stack.Length != 2 {
+		fmt.Errorf("Se esperaba que la longitud de la pila fuera 2 después del pop, pero es %d", stack.Length)
+	}
+
+	// Hacer más operaciones de push y pop según sea necesario
+
+	// Asegurarse de que la pila esté vacía al final
+	for stack.Length > 0 {
+		stack.pop()
+	}
+
+	if stack.Length != 0 {
+		fmt.Errorf("Se esperaba que la longitud de la pila fuera 0 al final, pero es %d", stack.Length)
+	}
+	fmt.Println(stack.Length)
 }
 
 type Node struct {
@@ -101,90 +144,4 @@ func (s *Stack) pop() interface{} {
 // Retornamos el valor contenido en el head de nuestro stack
 func (s *Stack) peek() interface{} {
 	return s.Head.Value
-}
-func TestMazeSolver() {
-	// Define a sample maze
-	maze := [][]string{
-		{"#", "#", "#", "#", "#", "#", "#", "#"},
-		{"#", " ", " ", " ", " ", " ", " ", "#"},
-		{"#", " ", " ", " ", " ", " ", " ", "#"},
-		{"#", " ", " ", " ", " ", " ", " ", "#"},
-		{"#", " ", " ", " ", " ", " ", " ", "#"},
-		{"#", " ", " ", " ", " ", " ", " ", "#"},
-		{"#", " ", " ", " ", " ", " ", " ", "#"},
-		{"#", "#", "#", "#", "#", "#", "#", "#"},
-	}
-
-	// Define start and end points
-	start := NewPoint(2, 2)
-	end := NewPoint(3, 3)
-
-	// Define the expected path
-	// expectedPath := []Point{
-	// 	{0, 0}, {0, 1}, {0, 2}, {0, 3}, {1, 3}, {2, 3}, {2, 4}, {2, 5}, {2, 6}, {2, 7},
-	// 	{3, 7}, {4, 7}, {5, 7}, {6, 7}, {7, 7},
-	// }
-
-	// Solve the maze
-	result := MazeSolver(maze, "#", start, end)
-	curr := result.Head
-	for curr != nil {
-		fmt.Println(curr)
-		curr = curr.Prev
-	}
-
-}
-
-type Point struct {
-	X int
-	Y int
-}
-
-func NewPoint(x int, y int) Point {
-	return Point{X: x, Y: y}
-}
-
-var dir = []Point{
-	NewPoint(0, 1),
-	NewPoint(-1, 0),
-	NewPoint(0, -1),
-	NewPoint(1, 0),
-}
-
-func Walk(maze [][]string, wall string, curr Point, end Point, seen [50][50]bool, path *Stack) bool {
-
-	if curr.X < 0 || curr.X >= len(maze[0]) || curr.Y < 0 || curr.Y >= len(maze) {
-		return false
-	}
-	if maze[curr.Y][curr.X] == wall {
-		return false
-	}
-	if curr.X == end.X && curr.Y == end.Y {
-		return true
-	}
-	if seen[curr.Y][curr.X] {
-		return false
-	}
-	seen[curr.X][curr.Y] = true
-	path.push(curr)
-	for i := 0; i < len(dir); i++ {
-		x := dir[i].X
-		y := dir[i].Y
-		if Walk(maze, wall, NewPoint(curr.X+x, curr.Y+y), end, seen, path) {
-			return true
-		}
-	}
-	path.pop()
-	return false
-}
-func MazeSolver(maze [][]string, wall string, start Point, end Point) *Stack {
-	var seen [50][50]bool
-	for i := 0; i < len(seen[0]); i++ {
-		for j := 0; j < i; j++ {
-			seen[i][j] = false
-		}
-	}
-	path := Factory()
-	Walk(maze, wall, start, end, seen, &path)
-	return &path
 }
