@@ -7,14 +7,11 @@ import (
 
 func main() {
 	ll := NewLinkedList()
-	ll.Prepend(4)
-	ll.Prepend(9)
-	ll.Prepend(11)
-	ll.Prepend(13)
-	ll.InsertAt(5, 0)
+	ll.Append(4)
+	ll.Append(9)
+	ll.Append(11)
 	fmt.Println(ll.String())
 	fmt.Println(ll.String())
-	fmt.Println(ll.Get(0))
 }
 
 type Node struct {
@@ -85,7 +82,6 @@ func (L *LinkedList) InsertAt(item interface{}, idx int) {
 		L.Prepend(item)
 		return
 	} else if idx == L.GetLength() {
-		fmt.Println("prepapen")
 		L.Append(item)
 		return
 	}
@@ -105,80 +101,53 @@ func (L *LinkedList) InsertAt(item interface{}, idx int) {
 }
 
 func (L *LinkedList) Remove(item interface{}) (interface{}, error) {
-	curr := *L.Head
+	curr := L.Head
 	for i := 0; i < L.GetLength(); i++ {
 		if curr.Value == item {
+			return L.DeleteNode(curr)
 		}
-		curr = *curr.Next
+		curr = curr.Next
 	}
 	return nil, errors.New("Item not found")
 }
 
-func (receiver type) method()  {
-    			L.Length--
-			if L.Length == 0 {
-				L.Head = nil
-				L.Tail = nil
-				return item, nil
-			}
-			prev := curr.Prev
-			next := curr.Next
-			head := *L.Head
-			tail := *L.Tail
-			if prev != nil {
-				prev.Next = next
-			}
-			if next != nil {
-				next.Prev = prev
-			}
-			if curr == head {
-				L.Head = curr.Next
-			}
+func (L *LinkedList) DeleteNode(curr *Node) (*Node, error) {
+	L.Length--
+	if L.Length == 0 {
+		L.Head = nil
+		L.Tail = nil
+		return curr, nil
+	}
+	prev := curr.Prev
+	next := curr.Next
+	head := *L.Head
+	tail := *L.Tail
+	if prev != nil {
+		prev.Next = next
+	}
 
-			if curr == tail {
-				L.Tail = curr.Prev
-			}
+	if next != nil {
+		next.Prev = prev
+	}
 
-			curr.Next = nil
-			curr.Prev = nil
-			return item, nil
+	if *curr == head {
+		L.Head = curr.Next
+	}
 
+	if *curr == tail {
+		L.Tail = curr.Prev
+	}
+
+	curr.Next = nil
+	curr.Prev = nil
+	return curr, nil
 }
 
 func (L *LinkedList) RemoveAt(idx int) (interface{}, error) {
-	if idx == 0 {
-
-	}
 	curr := L.Head
 	for i := 0; i < L.Length; i++ {
 		if i == idx {
-			L.Length--
-			if L.Length == 0 {
-				L.Head = nil
-				L.Tail = nil
-				return curr, nil
-			}
-			prev := curr.Prev
-			next := curr.Next
-			head := *L.Head
-			tail := *L.Tail
-			if prev != nil {
-				prev.Next = next
-			}
-			if next != nil {
-				next.Prev = prev
-			}
-			if *curr == head {
-				L.Head = curr.Next
-			}
-
-			if *curr == tail {
-				L.Tail = curr.Prev
-			}
-
-			curr.Next = nil
-			curr.Prev = nil
-			return curr, nil
+			return L.DeleteNode(curr)
 		}
 		curr = curr.Next
 	}
@@ -189,17 +158,17 @@ func (L *LinkedList) RemoveAt(idx int) (interface{}, error) {
 func (L *LinkedList) Append(item interface{}) {
 	node := NewNode(item)
 	L.Length++
-
 	if L.Tail == nil {
 		L.Head = node
 		L.Tail = node
 		return
 	}
-
 	tail := L.Tail
 	node.Prev = tail
-	tail.Prev = node
+	tail.Next = node
 	L.Tail = node
+	// Podemos usar la funcion de string para debuggear para saber que elementos tiene nuestra lista por cada operacion que se hace
+	fmt.Println(L.String())
 }
 
 func (L *LinkedList) Prepend(item interface{}) {
