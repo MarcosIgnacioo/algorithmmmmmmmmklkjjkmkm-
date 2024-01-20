@@ -3,7 +3,7 @@ package preorder
 import (
 	"fmt"
 
-	"marcos.com/algorithms/src/12-trees/arraylist"
+	"marcos.com/algorithms/src/12-trees/stack"
 )
 
 type BinaryNode struct {
@@ -23,17 +23,8 @@ func TestPreorder() {
 	root.Left = &BinaryNode{Value: 2, Left: &BinaryNode{Value: 4}, Right: &BinaryNode{Value: 5}}
 	root.Right = &BinaryNode{Value: 3}
 
-	// Calcula el preorder esperado para el árbol de ejemplo
-	expectedResult := arraylist.NewArrayList(12)
-	expectedResult.Push(1)
-	expectedResult.Push(2)
-	expectedResult.Push(4)
-	expectedResult.Push(5)
-	expectedResult.Push(3)
-
-	// Llama a la función que estás probando
 	result := Preorder(&root)
-	fmt.Println(result.ArrayList...)
+	fmt.Println(result.String())
 }
 func NewBinaryNode(value interface{}) BinaryNode {
 	return BinaryNode{
@@ -43,7 +34,7 @@ func NewBinaryNode(value interface{}) BinaryNode {
 	}
 }
 
-func Walk(current *BinaryNode, path *arraylist.ArrayList) *arraylist.ArrayList {
+func Walk(current *BinaryNode, path *stack.Stack) *stack.Stack {
 	// Nuestro basecase es que el nodo en el que estemos sea nulo
 	if current == nil {
 		return path
@@ -51,7 +42,7 @@ func Walk(current *BinaryNode, path *arraylist.ArrayList) *arraylist.ArrayList {
 
 	// En el caso de que no sea nulo pues pusheamos el valor a nuestra lista
 	// pre
-	path.Enqueue(current.Value)
+	path.Push(current.Value)
 
 	// Ahora recursamos yendo a la izquierda y a la derecha de nuestro nodo, como ponemos primero el de la izquierda pues el path va a poner primero lo de la izquierda en nuestro y luego lo de right por lo que esto se puede hacer asi sin pedillos
 	// recurse
@@ -63,7 +54,7 @@ func Walk(current *BinaryNode, path *arraylist.ArrayList) *arraylist.ArrayList {
 	return path
 }
 
-func Preorder(head *BinaryNode) *arraylist.ArrayList {
-	path := arraylist.NewArrayList(12)
+func Preorder(head *BinaryNode) *stack.Stack {
+	path := stack.Factory()
 	return Walk(head, &path)
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"marcos.com/algorithms/src/12-trees/arraylist"
+	"marcos.com/algorithms/src/12-trees/stack"
 )
 
 type BinaryNode struct {
@@ -33,7 +34,7 @@ func TestInorder() {
 
 	// Llama a la función que estás probando
 	result := Inorder(&root)
-	fmt.Println(result.ArrayList...)
+	fmt.Println(result.String())
 }
 
 func NewBinaryNode(value interface{}) BinaryNode {
@@ -44,7 +45,7 @@ func NewBinaryNode(value interface{}) BinaryNode {
 	}
 }
 
-func Walk(current *BinaryNode, path *arraylist.ArrayList) *arraylist.ArrayList {
+func Walk(current *BinaryNode, path *stack.Stack) *stack.Stack {
 	// Nuestro basecase es que el nodo en el que estemos sea nulo
 	if current == nil {
 		return path
@@ -53,7 +54,7 @@ func Walk(current *BinaryNode, path *arraylist.ArrayList) *arraylist.ArrayList {
 	// Como esto es inorden la visita al nodo (la accion que queramos hacer con el en este caso insertarlo a nuestra lista) se hace entre moverse a la izquierda y derecha. Porque vamos a la izquierda hasta que no haya ningun valor, entonces pusheamos esa posicion a la lista y luego vamos a la derecha
 	// recurse
 	Walk(current.Left, path)
-	path.Enqueue(current.Value)
+	path.Push(current.Value)
 	Walk(current.Right, path)
 
 	// Retornamos ya nuestro path cuando acabemos de recursar
@@ -61,7 +62,7 @@ func Walk(current *BinaryNode, path *arraylist.ArrayList) *arraylist.ArrayList {
 	return path
 }
 
-func Inorder(head *BinaryNode) *arraylist.ArrayList {
-	path := arraylist.NewArrayList(12)
+func Inorder(head *BinaryNode) *stack.Stack {
+	path := stack.Factory()
 	return Walk(head, &path)
 }

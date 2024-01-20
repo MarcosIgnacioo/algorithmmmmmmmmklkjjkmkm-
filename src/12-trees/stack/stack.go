@@ -16,13 +16,22 @@ type Stack struct {
 
 func (s *Stack) String() []interface{} {
 	curr := s.Head
-	length := s.Length - 1
-	arr := make([]interface{}, s.Length)
-	for i := length; i >= 0; i-- {
+	length := int(s.Length)
+	arr := make([]interface{}, length)
+	for i := length - 1; i >= 0; i-- {
 		arr[i] = curr.Value
-		curr = curr.Prev
+		if curr.Prev != nil {
+			curr = curr.Prev
+		}
 	}
 	return arr
+}
+
+func (s *Stack) Read() {
+	curr := s.Head
+	for curr != nil {
+		curr = curr.Prev
+	}
 }
 
 func Reverse(arr []interface{}) []interface{} {
@@ -41,7 +50,7 @@ func Factory() Stack {
 
 // Metemos un nuevo elemento al stack, por lo que ahora la cabeza de nuestro stack va a ser el ultimo elemento que metimos
 
-func (s *Stack) push(item interface{}) {
+func (s *Stack) Push(item interface{}) {
 
 	// Aumentamos la Length de nuestro stack porque vamos a ingresarle un nuevo elemento
 
@@ -61,7 +70,7 @@ func (s *Stack) push(item interface{}) {
 
 }
 
-func (s *Stack) pop() interface{} {
+func (s *Stack) Pop() interface{} {
 	s.Length = uint(math.Max(0, float64(s.Length)-1))
 	// Aqui lo que hacemos es que retornamos el numero mas grande entre dos numeros
 
@@ -115,6 +124,6 @@ func (s *Stack) pop() interface{} {
 }
 
 // Retornamos el valor contenido en el head de nuestro stack
-func (s *Stack) peek() interface{} {
+func (s *Stack) Peek() interface{} {
 	return s.Head.Value
 }

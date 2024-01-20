@@ -2,7 +2,9 @@ package postorder
 
 import (
 	"fmt"
+
 	"marcos.com/algorithms/src/12-trees/arraylist"
+	"marcos.com/algorithms/src/12-trees/stack"
 )
 
 type BinaryNode struct {
@@ -32,7 +34,7 @@ func TestPostorder() {
 
 	// Llama a la función que estás probando
 	result := Postorder(&root)
-	fmt.Println(result.ArrayList...)
+	fmt.Println(result.String())
 }
 func NewBinaryNode(value interface{}) BinaryNode {
 	return BinaryNode{
@@ -42,7 +44,7 @@ func NewBinaryNode(value interface{}) BinaryNode {
 	}
 }
 
-func Walk(current *BinaryNode, path *arraylist.ArrayList) *arraylist.ArrayList {
+func Walk(current *BinaryNode, path *stack.Stack) *stack.Stack {
 	// Nuestro basecase es que el nodo en el que estemos sea nulo
 	if current == nil {
 		return path
@@ -54,11 +56,11 @@ func Walk(current *BinaryNode, path *arraylist.ArrayList) *arraylist.ArrayList {
 
 	// Como esto es postorden hacemos el movimiento de izquierda y derecha primero y ya luego lo registramos en nuestra lista, es decir cuando
 	// post
-	path.Enqueue(current.Value)
+	path.Push(current.Value)
 	return path
 }
 
-func Postorder(head *BinaryNode) *arraylist.ArrayList {
-	path := arraylist.NewArrayList(12)
+func Postorder(head *BinaryNode) *stack.Stack {
+	path := stack.Factory()
 	return Walk(head, &path)
 }
