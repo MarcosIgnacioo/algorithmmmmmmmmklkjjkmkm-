@@ -1,9 +1,7 @@
 package main
 
-import (
-	"marcos.com/algorithms/src/12-trees/breadth"
-)
+import "marcos.com/algorithms/src/12-trees/comparasion"
 
 func main() {
-	breadth.TestBff()
+	comparasion.TestCompare()
 }

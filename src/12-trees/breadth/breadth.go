@@ -26,7 +26,17 @@ func NewBinaryNode(value interface{}) BinaryNode {
 //     / \
 //    4   5
 
+// Metemos a la cola  a nuestra root
+// Iniciamos el ciclo
+//+-->Sacamos a nuestra head actual (Length disminuye)
+//\  Vemos si sus valores de izquierda o derecha no son nil
+//+- Si no son nil (es decir que existen), los metemos a la cola (Length aumenta)
+
+// Si el valor de head que sacamos vale lo mismo que el needle devolvemos
+// Si el ciclo se termina no lo encontro por lo que no existe en el arbol
+
 func Bff(head *BinaryNode, needle interface{}) bool {
+	// Creamos nuestra cola
 	q := queues.NewQueue()
 	q.Enqueue(head)
 
@@ -63,3 +73,4 @@ func TestBff() {
 	root.Right = &BinaryNode{Value: 3}
 	fmt.Println(Bff(&root, 6))
 }
+
