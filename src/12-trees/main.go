@@ -1,18 +1,9 @@
 package main
 
 import (
-	"fmt"
-
-	"marcos.com/algorithms/src/12-trees/inorder"
-	"marcos.com/algorithms/src/12-trees/postorder"
-	"marcos.com/algorithms/src/12-trees/preorder"
+	"marcos.com/algorithms/src/12-trees/breadth"
 )
 
 func main() {
-	fmt.Println("Preorder")
-	preorder.TestPreorder()
-	fmt.Println("Postorder")
-	postorder.TestPostorder()
-	fmt.Println("Inorder")
-	inorder.TestInorder()
+	breadth.TestBff()
 }

@@ -237,3 +237,207 @@ output : 1,4,3,8,7,9,[5]
 En el preorden nuiestra root queda al principio,
 En el inorder queda en el medio
 En el post orden queda al final
+Ver el final de implement tree traversal sobre como funcionan el stack de lsa funciones creo que puede servir bastante a como vemos la recursividad
+
+Tree level traversal (Breadth tree traversal) Level order traversal el primer termino no es "correcto" pero es el mas entendible
+
+
+            5
+    ------------------ Primero
+           / \
+          3   8
+    ------------------ Segundo
+         / \ / \
+        1  4 7  9
+    ------------------ Tercero
+
+En un tree level traversal lo que hacemos es visitar por niveles, es decir, a nuestro nivel de root pues solamente tendremos la root por lo que es el unico nodo que tenemos que visitar, luego estan el 3 y el 8, entonces visitamos el 3, luego el 8, luego en el siguiente nivel visitamos el 1, 4, 7 y 9
+
+Para que al final nuestro traversal quede como
+
+5,3,8,1,4,7,9
+
+Pero lo que pasa debajo del todo es que estamos usando una cola, de la siguiente manera
+
+
+            5
+           / \
+          3   8
+         / \ / \
+        1  4 7  9
+
+Vamos a agregar 5, 5 tiene 2 hijos asi que los ponemos tambien
+Queue:
+
+ENQUEUE +
+------------------
+[]<---+
+      |
+^     |
+head  tail
+
+[5]
+^      |
+head   tail
+
+-----------------
+
+ENQUEUE +
+------------------
+
+Queue:
+
+[5][3][8]<---+
+^            |
+head         tail
+En este punto 5 ya no tiene mas hijos asi que lo imprimos y lo sacamos de la cola
+
+------------------
+
+DEQUEUE -
+------------------
+
+Queue:
+
+[5][3][8]<---+
+^            |
+head         tail
+
+[3][8]<------+
+ ^           |
+ head        tail
+Antes de sacarlo lo imprimimos
+output: 5
+
+------------------
+
+
+Ahora, 3 tiene hijos asi que los metemos a la cola
+
+ENQUEUE +
+------------------
+
+[3][8][1][4]<+
+ ^           |
+ head        tail
+
+------------------
+
+Ahora 3 ya no tiene hijos que queramos agregar a la cola por lo que lo sacamos de ella preo antes lo imprimimos 
+
+DEQUEUE -
+-------------------
+
+output: 5,3
+
+[3][8][1][4]<+
+ ^           |
+ head        tail
+
+[8][1][4]<---+
+ ^           |
+ head        tail
+
+-------------------
+
+ENQUEUE +
+-------------------
+
+8 tiene 2  hijos asi que los metemos a la cola
+
+[8][1][4][7][9]
+ ^           ^
+ head        tail
+
+-------------------
+
+Como 8 ya no tiene mas hijos lo sacamos de la cola y lo imprimimos
+
+output: 5,3,8
+
+DEQUEUE -
+-------------------
+
+[8][1][4][7][9]
+ ^           ^
+ head        tail
+
+[1][4][7][9]
+ ^        ^
+ head     tail
+
+-------------------
+
+Como 1 ya no tiene mas hijos lo sacamos de la cola y lo imprimimos
+
+output: 5,3,8,1
+
+DEQUEUE -
+-------------------
+
+[1][4][7][9]
+ ^        ^
+ head     tail
+
+[4][7][9]
+ ^     ^
+ head  tail
+
+-------------------
+
+Como 4 ya no tiene mas hijos lo sacamos de la cola y lo imprimimos
+
+output: 5,3,8,1,4
+
+DEQUEUE -
+-------------------
+
+[4][7][9]
+ ^     ^
+ head  tail
+
+[7][9]<-+
+ ^      | 
+ head  tail
+
+-------------------
+
+Como 7 ya no tiene mas hijos lo sacamos de la cola y lo imprimimos
+
+output: 5,3,8,1,4,7
+
+DEQUEUE -
+-------------------
+
+[7][9]<-+
+ ^      | 
+ head  tail
+
+[9]<----+
+ ^      | 
+ head  tail
+
+-------------------
+
+Como 9 ya no tiene mas hijos lo sacamos de la cola y lo imprimimos
+
+output: 5,3,8,1,4,7,9
+
+DEQUEUE -
+-------------------
+
+[9]<----+
+ ^      | 
+ head  tail
+
+[]<----+
+ ^      | 
+ head  tail
+
+-------------------
+
+Y asi es como jala nya
+
+Si usaramos los arrays de js (arraylists) para hacer esto esta operacion nos costaria
+
+ON^2 porque para hacer el reacomodo de las cosas es 
