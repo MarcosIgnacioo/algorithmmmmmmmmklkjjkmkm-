@@ -29,10 +29,23 @@ func NewBinaryNode(value interface{}) BinaryNode {
 func Bff(head *BinaryNode, needle interface{}) bool {
 	q := queues.NewQueue()
 	q.Enqueue(head)
+
 	for q.Length > 0 {
-		q.Enqueue(q.Head.Value.(*BinaryNode).Left)
-		q.Enqueue(q.Head.Value.(*BinaryNode).Right)
-		q.Dequeue()
+		// Creamos nuestra variable que apunta a head
+		curr := q.Head
+		// Sacamos a nuestra head actual y la guardamos en una variable
+		// Si el valor que buscamos es igual al que sacamos retornamos como true
+		pop := q.Dequeue().(*BinaryNode).Value
+		if pop == needle {
+			return true
+		}
+		// Aqui lo que hacemos es meternos al valor de nuestro current que era la head, checamos, como el valor de Value en el struct original es una interface {} tenemos que indicar el tipo de dato que esperamos que tenga nuestro value, en este caso pues el value va a contener a un tipo de un nodo binario. Checamos que si la izquierda de este no es nil, es decir, que tenga un valor, si hay un valor lo metemos a la cola, si no pues no, y pues es la misma tanto para la derecha ocmo la izquierda
+		if curr.Value.(*BinaryNode).Left != nil {
+			q.Enqueue(curr.Value.(*BinaryNode).Left)
+		}
+		if curr.Value.(*BinaryNode).Right != nil {
+			q.Enqueue(curr.Value.(*BinaryNode).Right)
+		}
 	}
 	return false
 }
@@ -48,5 +61,5 @@ func TestBff() {
 	root := NewBinaryNode(1)
 	root.Left = &BinaryNode{Value: 2, Left: &BinaryNode{Value: 4}, Right: &BinaryNode{Value: 5}}
 	root.Right = &BinaryNode{Value: 3}
-	fmt.Println(Bff(&root, 3))
+	fmt.Println(Bff(&root, 6))
 }
