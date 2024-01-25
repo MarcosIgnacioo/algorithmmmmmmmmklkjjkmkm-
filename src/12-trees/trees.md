@@ -441,3 +441,117 @@ Y asi es como jala nya
 Si usaramos los arrays de js (arraylists) para hacer esto esta operacion nos costaria
 
 ON^2 porque para hacer el reacomodo de las cosas es 
+
+
+Comparando arboles para verificar que sean igual estructuralmente y en su valor
+
+func primeagensVersion(a *BinaryNode, b *BinaryNode) bool {
+	if a == nil && b == nil {
+		return true
+	}
+	if a == nil || b == nil {
+		return false
+	}
+	if a.Value != b.Value {
+		return false
+	}
+	return primeagensVersion(a.Left, b.Left) && primeagensVersion(a.Right, b.Right)
+}
+
+Arbol 1
+            5
+           / \
+          3   8
+         / \ / \
+        1  4 7  9
+
+Arbol 2
+            5
+           / \
+          3   8
+         / \ / 
+        1  4 7  
+
+Pongamos por ejemplo que queremos comparar este arbol
+
+Empezamos pasandoles nuestras raices de cada uno, 
+
+Ninguna de ellas es nil asi que pasamos el primer filtro 
+Como ninguna de ellas es nil pasamos el primer filtro
+Como ambos valores son iguales pasamos el tercer filtro
+
+Entonces lo que hacemos ahora es recursar, vamos a retornar la el resultado de comparar los nodos de la izquierda de nuestro arbol que y la derecha
+
+
+Arbol 1 (a)
+            5
+           / \
+          3   8
+         / \ / \
+        1  4 7  9
+
+Arbol 2 (b)
+            5
+           / \
+          3   8
+         / \ / 
+        1  4 7  
+
+primeagensVersion(a.Left, b.Left)
+primeagensVersion(3,3)
+&&
+primeagensVersion(a.Right, b.Right)
+primeagensVersion(8,8)
+
+    Ninguna de ellas es nil asi que pasamos el primer filtro 
+    Como ninguna de ellas es nil pasamos el primer filtro
+    Como ambos valores son iguales pasamos el tercer filtro
+
+Recursamos
+
+a
+
+primeagensVersion(a.Left, b.Left)
+primeagensVersion(1,1)
+&&
+primeagensVersion(a.Right, b.Right)
+primeagensVersion(4,4)
+
+b
+
+primeagensVersion(a.Left, b.Left)
+primeagensVersion(7,7)
+
+    Ninguna de ellas es nil asi que pasamos el primer filtro 
+    Como ninguna de ellas es nil pasamos el primer filtro
+    Como ambos valores son iguales pasamos el tercer filtro
+
+&&
+primeagensVersion(a.Right, b.Right)
+primeagensVersion(9,nil)
+
+    Ambas no son nil asi que pasamos el primer filtro
+    Una de ellas es nil asi que no pasamos el primer filtro por lo que tenemos que retornar false
+
+
+Arbol 1 (a)           Arbol 2 (b)
+            5             5
+           / \           / \
+          3   8         3   8
+         / \ / \       / \ / \
+        1  4 7  9     1  4 7 nil  
+                ^------------^
+                    false
+	if a == nil || b == nil {
+		return false
+	}
+               f
+               5
+             /    \
+            /      \
+           /   f    \
+          3         8
+         /t\  && /  f  \
+        1   4    7     9
+        t && t   t &&  f
+
