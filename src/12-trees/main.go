@@ -18,5 +18,5 @@ func main() {
 	fmt.Println(tree.Right.Left)
 	dff.Delete(&tree, 22, nil)
 	fmt.Println(tree.Right.Left)
-	fmt.Println(tree.Right.Left.Right)
+	fmt.Println(tree.Right.Left.Left)
 }

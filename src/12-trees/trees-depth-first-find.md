@@ -76,3 +76,33 @@ Nuestra altura si que será N
 Entonces nuestra O seria entre LogN y N
 
 
+Hay 3 casos  importantes que tenemos que considerar a la hora de borrar un elemento de nuestro arboll
+
+El primero y el mas facil es que nuestro nodo no tenga hijos. por lo que simplemente podemos borrarlo asi bien facil
+
+El segundo es que tenga un hijo, por lo que tenemos que enlazar el padre de nuestro nodo con el hijo del nodo
+
+        +--->65
+        |   /
+        |  55
+     +--+ /
+     |   45
+     +---^
+Y si tiene dos hijos lo que haremos sera trasversar hacia la derecha todo el rato o la izquierda hasta que lleguemos al valor mas grande o pequeño, y reemplazaremos a nuestro nodo con ese valor. Como sabemos cuando ir por la derecha y la izquierda
+
+Simplemente lo que tenemos que hacer es saber si el nodo que queremos borrar es de derecha o izquierda, eso se puede saber facilmente comparandolo con su nodo padre, siendo que si el padre es mayor que nuestro nodo signfica que estamos en la derecha por lo que ocuparemos reemplazar nuestro nodo por uno mas pequeño porque asi podemos mantener los nodos a la derecha, mientras que si estamos a la izquierda ocupamos a nuestro valor mas grande porque asi podemos mantener an uestros valores a la izquierda aqui un ejemplo
+
+	           15
+	         /    \
+	        /     \
+	        5     27<----+
+	      /  \   /       |
+	     /   \  22       31
+	    /    \ 20 25   29 36
+	   3     8
+	  /    / |
+	 2
+
+Entonces como estamos a la derecha empezamos a buscar el valor mas pequeño de nuestro lado que se encontrara la izquierda del todo, lo que al final seria 20, por lo que reemplazamos las cosas y boom
+
+Pero si estuvieramos a la izquierda por ejemplo si quisieramos borrar el 22 lo que pasaria seria que iriamos por el valor mas grande a partird de ese nodo, que en ese caso es 25 y boom
