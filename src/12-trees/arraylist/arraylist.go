@@ -1,6 +1,7 @@
 package arraylist
 
 import (
+	"fmt"
 	"reflect"
 )
 
@@ -9,6 +10,16 @@ type ArrayList struct {
 	Length    uint
 	Capacity  uint
 	Type      reflect.Type
+}
+
+func (al *ArrayList) String() string {
+	var s string
+	for i := 0; i < int(al.Length); i++ {
+		if al.ArrayList[i] != nil {
+			s += fmt.Sprintf("%v ", al.ArrayList[i])
+		}
+	}
+	return s
 }
 
 func NewArrayList(c uint) ArrayList {
