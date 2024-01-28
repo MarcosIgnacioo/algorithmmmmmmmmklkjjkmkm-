@@ -78,7 +78,7 @@ func (arrayList *ArrayList) Push(item interface{}) interface{} {
 }
 
 func (arrayList *ArrayList) Pop() {
-	arrayList.ArrayList[arrayList.Length] = nil
+	arrayList.ArrayList[arrayList.Length-1] = nil
 	if arrayList.Length > 0 {
 		arrayList.Length--
 	}
