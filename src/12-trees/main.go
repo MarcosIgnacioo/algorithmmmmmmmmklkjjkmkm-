@@ -10,7 +10,6 @@ func main() {
 	t := tries.NewTrie()
 	t.Insert("hola")
 	t.Insert("holograma")
-	t.Insert("holpopo")
 	t.Autocompletion("hol")
 	fmt.Println()
 }
