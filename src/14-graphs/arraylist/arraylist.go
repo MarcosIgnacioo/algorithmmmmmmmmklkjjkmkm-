@@ -30,12 +30,6 @@ func NewArrayList(c uint) ArrayList {
 	}
 }
 
-func (arr *ArrayList) Fill(v interface{}) {
-	for i := 0; i < int(arr.Capacity); i++ {
-		arr.Push(v)
-	}
-}
-
 func (arrayList *ArrayList) Enqueue(item interface{}) interface{} {
 
 	if arrayList.Type == nil {
