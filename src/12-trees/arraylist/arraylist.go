@@ -36,6 +36,15 @@ func (arr *ArrayList) Fill(v interface{}) {
 	}
 }
 
+func (arr *ArrayList) Equals(arrC *ArrayList) bool {
+	for i := 0; i < int(arr.Length); i++ {
+		if arr.ArrayList[i] != arrC.ArrayList[i] {
+			return false
+		}
+	}
+	return true
+}
+
 func (arrayList *ArrayList) Enqueue(item interface{}) interface{} {
 
 	if arrayList.Type == nil {
@@ -48,7 +57,7 @@ func (arrayList *ArrayList) Enqueue(item interface{}) interface{} {
 
 	if arrayList.Length+1 > arrayList.Capacity {
 		newArray := make([]interface{}, arrayList.Capacity*2)
-		newArray = appendGamer(newArray, arrayList.ArrayList)
+		newArray = AppendGamer(newArray, arrayList.ArrayList)
 		arrayList.ArrayList = newArray
 	}
 
@@ -69,7 +78,7 @@ func (arrayList *ArrayList) Push(item interface{}) interface{} {
 	if arrayList.Length+1 > arrayList.Capacity {
 		arrayList.Capacity = arrayList.Capacity * 2
 		newArray := make([]interface{}, arrayList.Capacity)
-		newArray = appendGamer(newArray, arrayList.ArrayList)
+		newArray = AppendGamer(newArray, arrayList.ArrayList)
 		arrayList.ArrayList = newArray
 	}
 
@@ -108,7 +117,7 @@ func (arrayList *ArrayList) Dequeue() interface{} {
 	return dequeued
 }
 
-func appendGamer(array []interface{}, secondArray []interface{}) []interface{} {
+func AppendGamer(array []interface{}, secondArray []interface{}) []interface{} {
 	for i := 0; i < len(secondArray); i++ {
 		array[i] = secondArray[i]
 	}
