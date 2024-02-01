@@ -12,10 +12,18 @@ type ArrayList struct {
 	Type      reflect.Type
 }
 
+func (al *ArrayList) Reverse() ArrayList {
+	reversed := NewArrayList(al.Length)
+	for i := int(al.Length); i >= 0; i-- {
+		reversed.Enqueue(al.ArrayList[i])
+	}
+	return reversed
+}
+
 func (al *ArrayList) String() string {
 	var s string
 	for i := 0; i < int(al.Length); i++ {
-		if al.ArrayList[i] != nil {
+		if al.ArrayList[i] != nil && al.ArrayList[i] != -1 {
 			s += fmt.Sprintf("%v ", al.ArrayList[i])
 		}
 	}
@@ -92,11 +100,13 @@ func (arrayList *ArrayList) Push(item interface{}) interface{} {
 	return item
 }
 
-func (arrayList *ArrayList) Pop() {
+func (arrayList *ArrayList) Pop() int {
+	pop := arrayList.ArrayList[arrayList.Length-1]
 	arrayList.ArrayList[arrayList.Length-1] = nil
 	if arrayList.Length > 0 {
 		arrayList.Length--
 	}
+	return pop.(int)
 }
 
 func (arrayList *ArrayList) Dequeue() interface{} {

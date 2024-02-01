@@ -291,7 +291,7 @@ Lo que vamos a ocupar
              ^
              source node in here
 
-seen[0][0] = true
+seen[0] = true
 queue.Enqueue(0)
 path.push(0)
 for len(queue) > 0 {
