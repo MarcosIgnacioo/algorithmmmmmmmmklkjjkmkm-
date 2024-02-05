@@ -7,6 +7,53 @@ import (
 )
 
 type Matrix [][]int
+type List [][]Edge
+
+type Edge struct {
+	Value  int
+	To     int
+	Weight int
+}
+
+func walk(graph List, curr int, needle int, path *arraylist.ArrayList, seen *arraylist.ArrayList) bool {
+	// Esta es la funcion donde vamos a hacer la recursividad, es decir en la que vamos a visitar los nodos
+	// Aqui planteamos nuestros base cases
+	//  - Si encontramos el needle
+	//  - Si ya habiamos visitado ese nodo
+
+	if curr == needle {
+		return true
+	}
+	if curr == seen.ArrayList[curr] {
+		return false
+	}
+
+	// Recurse
+
+	seen.ArrayList[curr] = true
+	// Prev
+	path.Push(curr)
+	// Recurse
+	// Nuestro grafo es una matriz pero no matriz es una lista de nuestro Edges de nuestros grafos
+	list := graph[curr]
+	for i := 0; i < len(list); i++ {
+		edge := list[i]
+		if walk(graph, edge.To, needle, seen, path) {
+			return true
+		}
+	}
+	// Post
+	path.Pop()
+
+	return false
+}
+
+func DFSAdjacentList(graph List, source int, needle int) arraylist.ArrayList {
+	seen := arraylist.NewArrayList(10)
+	path := arraylist.NewArrayList(10)
+	walk(graph, source, needle, &seen, &path)
+	return path
+}
 
 func BFSMatrix(graph Matrix, source int, needle int) arraylist.ArrayList {
 
